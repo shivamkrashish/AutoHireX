@@ -1,3 +1,5 @@
+// client/src/pages/owner/ManageBookings.jsx
+
 import React, { useEffect, useState } from 'react';
 import Title from '../../components/owner/Title';
 import { useAppContext } from '../../context/AppContext';
@@ -8,9 +10,11 @@ const ManageBookings = () => {
   const { axios, currency } = useAppContext();
   
   const [bookings, setBookings] = useState([]);
+  const [loading, setLoading] = useState(true); 
 
   // Fetch bookings for owner
   const fetchOwnerBookings = async () => {
+    setLoading(true);
     try {
       const { data } = await axios.get('/api/bookings/owner');
       if (data.success) {
@@ -20,36 +24,53 @@ const ManageBookings = () => {
             setBookings([]);
       }
     } catch (error) {
-      toast.error("Failed to load owner bookings.");
+      toast.error("Failed to load owner bookings. Server might be down or unauthorized.");
       setBookings([]);
+    } finally {
+        setLoading(false);
     }
   };
 
   // Change booking status
   const changeBookingStatus = async (bookingId, status) => {
     try {
+      // Optimistic UI update
+      setBookings(prev => 
+          prev.map(b => b._id === bookingId ? { ...b, status: status } : b)
+      );
+
       const { data } = await axios.post('/api/bookings/change-status', { bookingId, status });
       if (data.success) {
         toast.success(data.message);
-        fetchOwnerBookings(); // refresh table
       } else {
         toast.error(data.message);
+        // यदि API विफल होता है, तो पुराना status वापस लाएँ
+        fetchOwnerBookings(); 
       }
     } catch (error) {
       toast.error("Failed to update status.");
+      // यदि API विफल होता है, तो पुराना status वापस लाएँ
+      fetchOwnerBookings(); 
     }
   };
 
   useEffect(() => {
     fetchOwnerBookings();
-  }, []);
+  }, [axios]); // dependency array में axios होना आवश्यक है
 
-  // डेट को YYYY-MM-DD फॉर्मेट में बदलने के लिए हेल्पर फंक्शन
-  const formatDate = (dateString) => {
-    if (!dateString) return 'N/A';
-    // UTC डेट को Local Date में बदलना
-    return new Date(dateString).toLocaleDateString('en-CA', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\//g, '-');
-  };
+  // डेट को फॉर्मेट करने के लिए हेल्पर फंक्शन
+  const formatDate = (dateString) => {
+    if (!dateString) return 'N/A';
+    return new Date(dateString).toLocaleDateString('en-CA', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\//g, '-');
+  };
+
+  if (loading) {
+      return (
+          <div className='px-4 pt-10 md:px-10 w-full text-center'>
+              <p className='text-gray-500 mt-20'>Loading bookings...</p>
+          </div>
+      )
+  }
 
   return (
     <div className='px-4 pt-10 md:px-10 w-full'>
@@ -65,7 +86,7 @@ const ManageBookings = () => {
               <th className='p-3 font-medium'>Car</th>
               <th className='p-3 font-medium max-md:hidden'>Date Range</th>
               <th className='p-3 font-medium'>Total</th>
-              <th className='p-3 font-medium'>Payment</th> {/* FIX: Customer की जगह Payment */}
+              <th className='p-3 font-medium'>Payment</th> 
               <th className='p-3 font-medium'>Actions</th>
             </tr>
           </thead>
@@ -77,7 +98,7 @@ const ManageBookings = () => {
                 {/* Car Info */}
                 <td className='p-3 flex items-center gap-3'>
                   <img
-                    src={booking.car?.image || assets.default_car_image}
+                    src={booking.car?.image || assets.default_car_image} 
                     alt=""
                     className='h-12 w-12 aspect-square rounded-md object-cover'
                   />
@@ -86,18 +107,18 @@ const ManageBookings = () => {
                   </p>
                 </td>
 
-                {/* Date Range (Fixed Formatting) */}
+                {/* Date Range */}
                 <td className='p-3 max-md:hidden'>
                   {formatDate(booking.pickupDate)} to {formatDate(booking.returnDate)}
                 </td>
 
                 {/* Total Price */}
-                <td className='p-3 font-semibold'>{currency}{booking.price}</td>
+                <td className='p-3 font-semibold'>{currency}{booking.price || 0}</td>
 
-                {/* Payment (FIXED: Added Payment Column) */}
+                {/* Payment */}
                 <td className='p-3'>
                   <span className='px-3 py-1 text-xs rounded-full bg-gray-100 text-gray-600 font-medium'>
-                    offline 
+                    {booking.paymentMethod || 'offline'} 
                   </span>
                 </td>
 
