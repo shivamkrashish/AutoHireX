@@ -41,7 +41,122 @@ import car_image2 from "./car_image2.png"
 import car_image3 from "./car_image3.png"
 import car_image4 from "./car_image4.png"
 
-export const cityList = ['New York', 'Los Angeles', 'Houston', 'Chicago']
+export const cityList = [
+  // 🌆 Metro Cities
+  "Delhi",
+  "Mumbai",
+  "Bengaluru",
+  "Chennai",
+  "Kolkata",
+  "Hyderabad",
+  "Pune",
+  "Ahmedabad",
+
+  // 🏙️ Tier 1 Cities
+  "Jaipur",
+  "Chandigarh",
+  "Indore",
+  "Bhopal",
+  "Lucknow",
+  "Kanpur",
+  "Nagpur",
+  "Surat",
+  "Vadodara",
+  "Rajkot",
+  "Udaipur",
+  "Jodhpur",
+
+  // 🌇 Tier 2 Cities
+  "Noida",
+  "Greater Noida",
+  "Gurugram",
+  "Faridabad",
+  "Ghaziabad",
+  "Meerut",
+  "Agra",
+  "Mathura",
+  "Aligarh",
+
+  // 🏞️ North India
+  "Amritsar",
+  "Ludhiana",
+  "Patiala",
+  "Jalandhar",
+  "Shimla",
+  "Dehradun",
+  "Haridwar",
+  "Roorkee",
+  "Haldwani",
+  "Nainital",
+
+  // 🌴 West India
+  "Thane",
+  "Navi Mumbai",
+  "Panvel",
+  "Nashik",
+  "Aurangabad",
+  "Kolhapur",
+  "Solapur",
+  "Goa",
+
+  // 🌾 Central India
+  "Gwalior",
+  "Ujjain",
+  "Ratlam",
+  "Sagar",
+  "Rewa",
+  "Jabalpur",
+
+  // 🌊 South India
+  "Mysuru",
+  "Mangaluru",
+  "Udupi",
+  "Hubballi",
+  "Belagavi",
+  "Coimbatore",
+  "Madurai",
+  "Salem",
+  "Tiruchirappalli",
+  "Vellore",
+  "Erode",
+  "Tiruppur",
+  "Kochi",
+  "Trivandrum",
+  "Kozhikode",
+  "Thrissur",
+  "Kannur",
+  "Alappuzha",
+  "Kottayam",
+
+  // 🌄 East India
+  "Patna",
+  "Gaya",
+  "Muzaffarpur",
+  "Bhagalpur",
+  "Ranchi",
+  "Dhanbad",
+  "Jamshedpur",
+  "Bokaro",
+  "Bhubaneswar",
+  "Cuttack",
+  "Puri",
+  "Rourkela",
+  "Siliguri",
+  "Durgapur",
+  "Asansol",
+
+  // 🌏 North-East
+  "Guwahati",
+  "Shillong",
+  "Imphal",
+  "Agartala",
+  "Aizawl",
+  "Kohima",
+  "Dimapur",
+
+  // 🏝️ Others
+  "Port Blair"
+];
 
 export const assets = {
     logo,
