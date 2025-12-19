@@ -47,12 +47,13 @@ const Navbar = () => {
     >
       {/* Logo */}
       <Link to="/" className="cursor-pointer">
-        <motion.img
-          whileHover={{ scale: 1.05 }}
-          src={assets.logo}
-          alt="logo"
-          className="h-8"
-        />
+       <motion.img
+  whileHover={{ scale: 1.05 }}
+  src={assets.logo}
+  alt="AutoHireX Logo"
+  className="h-8"
+/>
+
       </Link>
 
       {/* Menu */}

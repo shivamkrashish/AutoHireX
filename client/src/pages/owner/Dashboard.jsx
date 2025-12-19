@@ -19,7 +19,6 @@ const Dashboard = () => {
         toast.error(res.data.message || "Unauthorized");
       }
     } catch (err) {
-      // ✅ FIX: एरर मैसेज को सुरक्षित रूप से हैंडल करें
       const errorMessage = err.response?.data?.message || err.message || "Failed to connect to server.";
       toast.error(errorMessage);
       console.error("Dashboard Fetch Error:", err);
@@ -27,13 +26,11 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
-    // ✅ FIX: dependency array में axios जोड़ा गया
     if (isOwner) fetchDashboardData();
   }, [isOwner, axios]); 
 
   if (!data) return <p className="text-center mt-20">Loading dashboard...</p>;
 
-  // ✅ FIX: Nullish coalescing (|| 0) का उपयोग करके डेटा को सुरक्षित रूप से एक्सेस करें
   const dashboardCards = [
     { title: "Total Cars", value: data.totalCars || 0, icon: assets.carIcon },
     { title: "Total Bookings", value: data.totalBookings || 0, icon: assets.listIcon },
@@ -72,7 +69,7 @@ const Dashboard = () => {
                     <img src={assets.listIconColored} alt="" className="h-5 w-5" />
                   </div>
                   <div>
-                    {/* Optional chaining का उपयोग करें */}
+                    
                     <p className="font-medium">{booking.car?.brand} {booking.car?.model}</p>
                     <p className="text-sm text-gray-500">{new Date(booking.createdAt).toLocaleDateString()}</p>
                   </div>
